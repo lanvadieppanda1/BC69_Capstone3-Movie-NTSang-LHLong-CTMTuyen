@@ -1,4 +1,4 @@
 export * from './useRegisterMutation'
-export * from './useLoginMutation'
+export * from './useLoginMutatuon'
 export * from './usePhimDetailById'
 export * from './useGetShowtimesById'

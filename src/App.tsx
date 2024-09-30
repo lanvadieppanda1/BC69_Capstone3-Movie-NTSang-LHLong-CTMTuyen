@@ -1,10 +1,8 @@
-// import { Routes, Route } from 'react-router-dom'
-
-import { routers } from "./router";
 // import { DemoComponent } from './components/DemoComponent'
+import { routers } from './router'
 
 function App() {
-  return <>{routers()}</>;
+    return <>{routers()}</>
 }
 
-export default App;
+export default App

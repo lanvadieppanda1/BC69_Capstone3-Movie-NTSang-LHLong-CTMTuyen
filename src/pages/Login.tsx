@@ -1,6 +1,6 @@
-// import React from "react";
-import { LoginTemplate } from "../components/templates";
+// rafc
+import { LoginTemplate } from '../components'
 
 export const Login = () => {
-  return <LoginTemplate />;
-};
+    return <LoginTemplate />
+}

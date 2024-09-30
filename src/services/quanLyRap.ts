@@ -1,16 +1,13 @@
-
-import { ThongTinLichChieu } from "../@types"
-import { apiInstance } from "../constants"
-import { useGetShowtimesById } from "../hooks/api"
-
+import { ThongTinLichChieu } from '../@types'
+import { apiInstance } from '../constants'
 
 const api = apiInstance.create({
-    // truyền vào base url đối với những url giống nhau nhưng chỉ khác phần đuôi, để tối ưu code,
     baseURL: 'https://movienew.cybersoft.edu.vn/api/QuanLyRap',
 })
 
-export const quanLyRap =  {
-    getShowTimesById: (query = "") =>
-        api.get<HttpResponse<ThongTinLichChieu>>(`/LayThongTinLichChieuPhim${query}`),
-  
+export const quanLyRap = {
+    getShowtimesById: (query = '') =>
+        api.get<HttpResponse<ThongTinLichChieu>>(
+            `/LayThongTinLichChieuPhim${query}`
+        ),
 }

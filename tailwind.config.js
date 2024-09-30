@@ -6,15 +6,17 @@ export default {
   ],
   theme: {
     container: {
-      center: true
+      center: true,
     },
     extend: {
       fontSize:{
         10: '10px',
+        16: '16px',
         20: '20px',
-        30: '30px'
+        30: '30px',
+        36: '36px'
       },
-      fontWeight:{
+      fontWeight: {
         100: 100,
         200: 200,
         300: 300,
@@ -24,7 +26,12 @@ export default {
         700: 700,
         800: 800,
         900: 900,
-        1000: 1000,
+      },
+      spacing: {
+        10:  '10px',
+        20:  '20px',
+        30:  '30px',
+        40:  '40px',
       }
     },
   },
