@@ -3,7 +3,8 @@ export const PATH = {
     register: '/dangky',
     phimDetail: '/phim/:id',
     category: "/danhmuc",
-    FilmManament: '/admin'
+    FilmManament: '/admin',
+    listUser: "/danhsachnguoidung",
 }
 
 export const MANHOM = {

@@ -14,10 +14,13 @@ import moment from "moment";
 import { UploadOutlined } from '@ant-design/icons';
 import { Bounce, toast } from 'react-toastify';
 import { Phim } from '../../@types';
+import { useQuanLyNguoiDungSelector } from '../../store/quanLyNguoiDung';
 
 export const MovieManagement = () => {
+  const { user } = useQuanLyNguoiDungSelector();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  if (!user) navigate("/login");
 
   const { data, refetch } = useQuery({
     queryKey: ["DanhSachPhim"],

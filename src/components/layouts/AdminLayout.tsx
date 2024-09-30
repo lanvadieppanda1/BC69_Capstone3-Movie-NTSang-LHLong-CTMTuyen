@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
-import { SideBar } from "../ui";
 import { useState } from "react";
+import { SideBar } from "../ui";
 import cn from "classnames";
 
 export const AdminLayOut = () => {
@@ -14,10 +14,10 @@ export const AdminLayOut = () => {
           { active: activeSidebar }
         )}>
         <div className="blockSideBar absolute top-0 left-0 h-full bg-[#1a191f] z-10">
-          {/* <SideBar
+        <SideBar
             activeSidebar={activeSidebar}
             setActiveSidebar={setActiveSidebar}
-          /> */}
+          />
         </div>
         <div className="blockContent w-full">
           <Outlet />

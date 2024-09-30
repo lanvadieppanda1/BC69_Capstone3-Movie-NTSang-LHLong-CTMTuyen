@@ -29,4 +29,8 @@ export const quanLyNguoiDungServices = {
 
     dangNhap: (payload: LoginSchemaType) =>
         api.post<HttpResponse<LoginAPIResponse>>('/DangNhap', payload),
+    layVeDaDat: (query = "") =>
+      api.post<HttpResponse<TicketedAPIResponese>>(
+        `/LayThongTinNguoiDung${query}`
+      ),
 }
