@@ -1,41 +1,65 @@
+// rafc
 import { useQuery } from "@tanstack/react-query";
 import { quanLyPhimServices } from "../../services/quanLyPhim";
 import { Button, Card, Skeleton } from "antd";
+import { sleep } from "../../utils";
 import { Phim } from "../../@types";
-import { generatePath, useNavigate } from "react-router-dom";
+import { generatePath, useNavigate, Link } from "react-router-dom";
 import { PATH } from "../../constants";
+import Banner from "../ui/Banner/Banner";
+import { Tabs } from "antd";
 
 export const HomeTemplate = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
   // Lấy danh sách phim
   const { data, isFetching } = useQuery({
     queryKey: ["DanhSachPhim"],
-    queryFn: () => quanLyPhimServices.getDanhSachPhim("?maNhom=GP13"),
+    // queryFn: () => quanLyPhimServices.getDanhSachPhim('?maNhom=GP01'),
+    queryFn: async () => {
+      await sleep(1000 * 1);
+      return quanLyPhimServices.getDanhSachPhim("?maNhom=GP03");
+    },
+
     staleTime: 5 * 60 * 1000,
-    //staleTime 5 phút, giúp trang web ko fetch lại data khi chưa đủ 5p, nó sẽ lưu data lại trên key (stale) , nó sẽ gọi lại data trên key, sau 5 phút không sử dụng data thì mới gửi lại request lên api để lấy dữ liệu
+
     enabled: true,
-    //true: gọi API, false: ko gọi
   });
 
-  const renderPhim = (data: Phim[]= [])=>{
-    return data.map((phim)=>{
+  const renderPhim = (data: Phim[] = []) => {
+    return data.map((phim) => {
       return (
-        <div key={phim.maPhim} className='flex justify-center'>
-            <Card
-                hoverable
-                style={{ width: 240 }}
-                cover={<img alt="example" src={phim.hinhAnh} />}
-            >
-                <Card.Meta title={phim.tenPhim} />
-                <Button className="mt-10" onClick={()=>{
-                const path = generatePath(PATH.phimDetail, {id: phim.maPhim})
-                navigate(path)
-                }}>Đặt vé</Button>
-            </Card>
+        <div key={phim.maPhim} className="col-3 mb-16 card-film ">
+          <Card
+            className="card-img"
+            hoverable
+            style={{ height: 450, width: "100%", textAlign: "left" }}
+            cover={<img alt="example" src={phim.hinhAnh} />}
+          >
+            <div className="card-data ">
+              <Card.Meta
+                title={phim.tenPhim}
+                className="card-data"
+                style={{}}
+              />
+              <p>{phim?.moTa}</p>
+              <Button
+                className="mt-10 mr-4 bg-red-500 border-0 text-white w-100"
+                onClick={() => {
+                  const path = generatePath(PATH.phimDetail, {
+                    id: phim.maPhim,
+                  });
+                  navigate(path);
+                }}
+              >
+                Đặt vé
+              </Button>
+            </div>
+          </Card>
         </div>
-    )
-    } )
-  }
+      );
+    });
+  };
 
   if (isFetching) {
     return (
@@ -49,26 +73,61 @@ export const HomeTemplate = () => {
             </div>
           );
         })}
-        loading...
+        Loading....
       </div>
     );
   }
-  console.log("data: ", data);
-  return (
-    <div className="container m-auto">
-      <p className="font-600 text-30 mb-30">Phim đang chiếu</p>
-      <div className="grid grid-cols-4 container">
-        {
-          renderPhim(data?.data.content?.filter(item => item.dangChieu))
-        }
 
+  console.log("data: ", data);
+
+  // tab
+  const { TabPane } = Tabs;
+
+  return (
+    <div className="main wrapper bg-black">
+      <div className="col-main">
+        <Banner />
       </div>
 
-      <p className="font-600 text-30 m-30">Phim sắp chiếu</p>
-      <div className="grid grid-cols-4 container">
-      {
-          renderPhim(data?.data.content?.filter(item => item.sapChieu))
-        }
+      <div className="container m-auto py-[50px] px-4">
+        <Tabs defaultActiveKey="1" className="fw-10">
+          <TabPane tab="Phim Đang Chiếu" key="1">
+            <div className="container ">
+              <div className="row">
+                {renderPhim(
+                  data?.data.content?.filter((item) => item.dangChieu)
+                )}
+              </div>
+              <div className="text-center mt-4">
+                <Link
+                  to="danhmuc"
+                  type="text"
+                  className="!text-white rounded-md border-2 border-blue-300 ms-2 hover:!bg-blue-300 py-3 px-6"
+                >
+                  Xem tất cả
+                </Link>
+              </div>
+            </div>
+          </TabPane>
+          <TabPane tab="Phim Sắp Chiếu" key="2" className="  mb-30 text-center">
+            <div className="container">
+              <div className="row">
+                {renderPhim(
+                  data?.data.content.filter((item) => !item.dangChieu)
+                )}
+              </div>
+              <div className="text-center mt-4">
+                <Link
+                  to="danhmuc"
+                  type="text"
+                  className="!text-white rounded-md border-2 border-blue-300 ms-2 hover:!bg-blue-300 py-3 px-6"
+                >
+                  Xem tất cả
+                </Link>
+              </div>
+            </div>
+          </TabPane>
+        </Tabs>
       </div>
     </div>
   );

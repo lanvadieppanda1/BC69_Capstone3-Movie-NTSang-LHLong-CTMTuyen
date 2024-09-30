@@ -9,10 +9,10 @@ export type LoginAPIResponse = {
 }
 
 export type RegisterAPIResponse = {
-    taiKhoan: string;
-    matKhau: string;
-    email: string;
-    soDt: string;
-    maNhom: string;
-    hoTen: string;
+    taiKhoan: string
+    matKhau: string
+    email: string
+    soDt: string
+    maNhom: string
+    hoTen: string
 }

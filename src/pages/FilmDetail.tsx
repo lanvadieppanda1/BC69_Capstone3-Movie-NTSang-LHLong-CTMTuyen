@@ -1,6 +1,5 @@
-import React from 'react'
-import { FilmDetailTemplate } from '../components/templates/FilmDetailTemplate'
+import { FimDetailTemplate } from "../components/templates/FimDetailTemplate";
 
 export const FilmDetail = () => {
-  return <FilmDetailTemplate/>
-}
+  return <FimDetailTemplate />;
+};

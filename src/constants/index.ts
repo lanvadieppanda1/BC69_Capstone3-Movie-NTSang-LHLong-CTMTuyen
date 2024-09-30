@@ -1,4 +1,3 @@
 export * from './config'
-export * from './localStorageKey'
+export * from './localStorageKeys'
 export * from './apiInstance'
-

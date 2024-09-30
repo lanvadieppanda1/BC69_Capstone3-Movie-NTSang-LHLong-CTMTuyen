@@ -1,4 +1,4 @@
-import { Phim } from "../@types";
+import { Phim, Banner } from "../@types";
 import { apiInstance } from "../constants";
 
 const api = apiInstance.create({
@@ -6,10 +6,15 @@ const api = apiInstance.create({
 });
 
 export const quanLyPhimServices = {
-  // sử dụng query để truyền động vào, không để cố định là maNhom hay maPhim ...
   getDanhSachPhim: (query = "") =>
     api.get<HttpResponse<Phim[]>>(`/LayDanhSachPhim${query}`),
+
   getPhimDetailById: (query = "") =>
     api.get<HttpResponse<Phim>>(`/LayThongTinPhim${query}`),
-  // ${query} cho truyền động vào , có thể tái sử dụng khi có thể truyền thêm dữ liệu khác ngoài ID mã phim
+  deletePhim: (query = "") => {
+    return api.delete<HttpResponse<Phim>>(`/XoaPhim${query}`);
+  },
+  layDanhSachBanner: () => {
+    return api.get<HttpResponse<Banner>>(`/LayDanhSachBanner`);
+  },
 };

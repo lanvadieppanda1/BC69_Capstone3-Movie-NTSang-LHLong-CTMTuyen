@@ -1,7 +1,6 @@
 // rafc
-
-import { RegisterTemplate } from "../components/templates";
+import { RegisterTemplate } from '../components'
 
 export const Register = () => {
-  return <RegisterTemplate />;
-};
+    return <RegisterTemplate />
+}

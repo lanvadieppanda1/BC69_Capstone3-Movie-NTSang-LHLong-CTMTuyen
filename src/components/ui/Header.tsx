@@ -4,46 +4,103 @@ import {
   useQuanLyNguoiDungSelector,
 } from "../../store/quanLyNguoiDung";
 import { useAppDispatch } from "../../store";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { PATH } from "../../constants";
 
+import { useState } from "react";
+import classNames from "classnames";
+
 export const Header = () => {
+  const dispatch = useAppDispatch();
+
   const { user } = useQuanLyNguoiDungSelector();
   console.log("user: ", user);
-  const dispatch = useAppDispatch();
-  //useDispatch để xử lí thường phải thêm generic, useAppDispatch của redux toolkit ko cần thêm generic và có thể xử lí bất đồng bộ
 
   const navigate = useNavigate();
+
+  const [isshowMenu, setIsShowMenu] = useState(false);
+
   return (
-    <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a
-          href="https://flowbite.com/"
-          className="flex items-center space-x-3 rtl:space-x-reverse"
-        >
-          <img
-            src="https://flowbite.com/docs/images/logo.svg"
-            className="h-8"
-            alt="Flowbite Logo"
-          />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            Movie Booking
+    <nav className=" fixed w-full z-20 top-0 start-0  navbar p-0">
+      <div className="container m-auto flex flex-wrap items-center justify-between mx-auto md:py-[25px] py-4 px-4 relative">
+        <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <span className=" self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+            <img
+              src="https://assets.glxplay.io/web/images/logoglx.svg"
+              className="h-24 w-24"
+              alt=""
+            />
           </span>
         </a>
+
+        {/* Menu  */}
+        <div
+          className={classNames(
+            "menu flex items-center flex-1 md:flex-row flex-col lg:relative absolute w-full top-full left-0 px-3 lg:px-0 lg:py-0  lg:bg-transparent bg-[#1f1e24] overflow-visible",
+            {
+              isShow: isshowMenu,
+            }
+          )}
+        >
+          <div
+            className="flex-1 items-center justify-center w-full md:flex md:w-auto md:mb-0 "
+            id="navbar-sticky"
+          >
+            <ul className="flex flex-col p-4:p-0 font-medium rounded-lg lg:space-x-8 md:space-x-3 rtl:space-x-reverse md:flex-row lg:text-[16px] text-[14px] nav-links">
+              <li>
+                <NavLink
+                  onClick={() => setIsShowMenu(false)}
+                  to="/"
+                  className="block py-2 px-3 text-white hover:text-orange-300 md:p-0 text-center"
+                >
+                  Trang chủ
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  onClick={() => setIsShowMenu(false)}
+                  to="vechungtoi"
+                  className="block py-2 px-3 md:p-0 text-white hover:text-orange-300 text-center"
+                >
+                  Về chúng tôi
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  onClick={() => setIsShowMenu(false)}
+                  to="danhmuc"
+                  className="block py-2 px-3 md:p-0 text-white hover:text-orange-300 text-center"
+                >
+                  Danh mục
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  onClick={() => setIsShowMenu(false)}
+                  to="lienhe"
+                  className="block py-2 px-3 md:p-0 text-white hover:text-orange-300 text-center"
+                >
+                  Liên hệ
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Dang nhap/ Dang ky  */}
+
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           {user ? (
             <div className="flex items-center gap-10">
-              <div>
-                <p className="text-neutral-100">Welcome, {user?.hoTen} !</p>
-              </div>
+              <p>Hi, {user?.hoTen}</p>
               <Popover
-                trigger="click"
                 content={
                   <div className="flex flex-col gap-20 p-[12px]">
                     <Button type="text">Thông tin tài khoản</Button>
                     <div>
                       <Divider />
                       <Button
+                        className="w-full"
                         danger
                         onClick={() =>
                           dispatch(quanLyNguoiDungActions.logOut())
@@ -56,40 +113,32 @@ export const Header = () => {
                 }
               >
                 <Avatar
-                  size={"large"}
-                  className="bg-lime-500"
-                  icon={<i className="fa-solid fa-user-secret" />}
+                  size="large"
+                  className="bg-[#87d068]"
+                  icon={<i className="fa-regular fa-user"></i>}
                 />
               </Popover>
             </div>
           ) : (
             <div>
               <Button
-                className="text-neutral-100"
-                type="text"
-                onClick={() => {
-                  navigate(PATH.login);
-                }}
+                className=" btn-primary m-4"
+                type="primary"
+                onClick={() => navigate(PATH.login)}
               >
-                Đăng nhập
+                Đăng Nhập
               </Button>
-              <Button
-                className="text-neutral-100"
-                type="text"
-                onClick={() => {
-                  navigate(PATH.register);
-                }}
-              >
-                Đăng ký
-              </Button>
+              <Button onClick={() => navigate(PATH.register)}>Đăng Ký</Button>
             </div>
           )}
+
           <button
             data-collapse-toggle="navbar-sticky"
             type="button"
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            className="inline-flex items-center p-2 w-9 h-9 justify-center text-sm text-white rounded-lg lg:hidden border-white border"
             aria-controls="navbar-sticky"
             aria-expanded="false"
+            onClick={() => {}}
           >
             <span className="sr-only">Open main menu</span>
             <svg
@@ -100,6 +149,7 @@ export const Header = () => {
               viewBox="0 0 17 14"
             >
               <path
+                color="#F9AB00"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -108,46 +158,6 @@ export const Header = () => {
               />
             </svg>
           </button>
-        </div>
-        <div
-          className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
-          id="navbar-sticky"
-        >
-          <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            <li>
-              <a
-                href="#"
-                className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
-                aria-current="page"
-              >
-                Home
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
-                About
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
-                Services
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
-                Contact
-              </a>
-            </li>
-          </ul>
         </div>
       </div>
     </nav>

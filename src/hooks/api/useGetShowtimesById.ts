@@ -1,19 +1,20 @@
-import { useQuery } from '@tanstack/react-query'
-import { objectToQueryString } from '../../utils'
-import { quanLyRap } from '../../services'
+// rafc
+import {useQuery} from '@tanstack/react-query'
+import { quanLyRap } from '../../services/quanLyRap'
+import {objectToQueryString} from "../../utils"
 
-type UseGetShowtimesByIdParams = {
-    id:string
+type UseGetShowtimesByIdParams ={
+    id: string
 }
 
 export const useGetShowtimesById = ({id}: UseGetShowtimesByIdParams) => {
     const query = useQuery({
-        queryKey: ['Showtime', id],
-        queryFn: ()=> quanLyRap.getShowTimesById(objectToQueryString({maPhim: id}))
+        queryKey: ["Showtimes",id],
+        queryFn: ()=> quanLyRap.getShowtimesById(objectToQueryString({maPhim: id}))
     })
+
   return {
     ...query,
     data: query?.data?.data?.content
   }
-  
 }

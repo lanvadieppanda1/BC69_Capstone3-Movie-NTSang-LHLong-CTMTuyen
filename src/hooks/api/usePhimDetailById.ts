@@ -1,11 +1,12 @@
-import { useQuery } from '@tanstack/react-query'
-
-import { objectToQueryString } from '../../utils'
+// rafc
+import {useQuery} from "@tanstack/react-query"
+import { objectToQueryString } from "../../utils"
 import { quanLyPhimServices } from '../../services'
 
 type UsePhimDetailByIdParams = {
     id: string
 }
+
 export const usePhimDetailById = ({id}: UsePhimDetailByIdParams) => {
     const query = useQuery({
         queryKey: ['PhimDetail', id],
@@ -21,3 +22,5 @@ export const usePhimDetailById = ({id}: UsePhimDetailByIdParams) => {
     data: query?.data?.data?.content
   }
 }
+
+// cmd + shift + P
