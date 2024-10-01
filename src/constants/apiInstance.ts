@@ -1,5 +1,15 @@
 import axios, { InternalAxiosRequestConfig } from 'axios'
 
+import { localStorageKey } from "./localStorageKeys";
+
+type Token = string;
+const dataUser = localStorage.getItem(localStorageKey.USER)
+  ? localStorage.getItem(localStorageKey.USER)
+  : "";
+
+
+export const token: Token = dataUser ? JSON.parse(dataUser).accessToken : "";
+
 export const apiInstance = {
     create: (setting?: Partial<InternalAxiosRequestConfig>) => {
         const axiosInstance = axios.create()
