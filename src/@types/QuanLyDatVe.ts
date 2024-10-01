@@ -4,6 +4,9 @@ export interface DanhSachPhongVe {
 }
 
 export interface ThongTinPhim {
+}
+
+export interface ThongTinPhim {
     maLichChieu: number
     tenCumRap: string
     tenRap: string

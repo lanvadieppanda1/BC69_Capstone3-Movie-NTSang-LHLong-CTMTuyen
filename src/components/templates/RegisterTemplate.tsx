@@ -5,11 +5,6 @@ import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RegisterSchema, RegisterSchemaType } from '../../schemas'
 import { toast } from 'react-toastify'
-// import { sleep } from '../../utils'
-// import { quanLyNguoiDungServices } from '../../services'
-// import { useState } from 'react'
-// import { RootState } from '../../store'
-// import { useDispatch, useSelector } from 'react-redux'
 
 import { quanLyNguoiDungThunks, useQuanLyNguoiDungSelector } from '../../store/quanLyNguoiDung'
 import { useAppDispatch } from '../../store'
@@ -23,37 +18,9 @@ import { useRegisterMutation } from '../../hooks/api'
 export const RegisterTemplate = () => {
     // const [isLoading, setIsLoading] = useState(false)
 
-    // const registerMutation = useMutation({
-    //     mutationKey: ['Register'],
-    //     // mutationFn: (payload: RegisterSchemaType) => quanLyNguoiDungServices.dangKy(payload),
-    //     mutationFn: async (payload: RegisterSchemaType) => {
-    //         await sleep(2000)
-    //         return quanLyNguoiDungServices.dangKy(payload)
-    //     },
-    //     onSuccess: () => {
-    //         // Hàm đc gọi khi API thành công
-    //         toast.success('Đăng ký thành công')
-    //     },
-    //     onError: (err: any) => {
-    //         //Hàm đc gọi khi API thất bại
-    //         toast.error(err?.response?.data?.content)
-    //     },
-    // })
-
     const registerMutation = useRegisterMutation()
-
-    // const deleteUserMutation = useMutation({
-    //     mutationKey: ['Register'],
-    //     mutationFn: (payload: RegisterSchemaType) => quanLyNguoiDungServices.delete(payload),
-    // })
-
-    // Tạo dispatch từ useAppdispatch
     const dispatch = useAppDispatch()
-
-    // const { isLoadingRegister } = useSelector((state: RootState) => state.quanLyNguoiDungReducer)
     const { isLoadingRegister } = useQuanLyNguoiDungSelector()
-
-    // RegisterSchemaType: Kiểu dữ liệu trả về của useForm
     const {
         handleSubmit,
         control,
@@ -67,41 +34,6 @@ export const RegisterTemplate = () => {
 
     // onSubmit chỉ đc gọi khi validation ko có errors
     const onSubmit: SubmitHandler<RegisterSchemaType> = async (values) => {
-        // C1:
-        // try {
-        //     console.log(values)
-        //     setIsLoading(true)
-        //     await sleep(5000)
-        //     // Gọi API đăng ký user
-        //     await quanLyNguoiDungServices.dangKy(values)
-        //     toast.success('Đăng ký thành công')
-        // } catch (errors: any) {
-        //     console.log('errors: ', errors)
-        //     toast.error(errors?.response?.data?.content)
-        // } finally {
-        //     // Chạy sau khi gọi API xong
-        //     // Luôn luôn chạy vào đây
-        //     setIsLoading(false)
-        // }
-        // C2: Dùng redux
-        // try {
-        //     const result = await dispatch(quanLyNguoiDungThunks.dangKy(values)).unwrap()
-        //     toast.success('Đăng ký thành công')
-        // } catch (err: any) {
-        //     toast.error(err?.response?.data?.content)
-        // }
-
-        // C3: react - query
-
-        // try {
-        //     //
-        //     // registerMutation.mutate()
-        //     await registerMutation.mutateAsync(values)
-        //     toast.success('Đăng ký thành công')
-        // } catch (err: any) {
-        //     console.log('err: ', err)
-        //     toast.error(err?.response?.data?.content)
-        // }
         registerMutation.mutate(values)
     }
 
@@ -170,7 +102,6 @@ export const RegisterTemplate = () => {
                 {errors.matKhau && <p className="text-red-500">{errors.matKhau.message}</p>}
 
                 <Button
-                    // loading={isLoadingRegister}
                     loading={registerMutation.isPending}
                     htmlType="submit"
                     type="primary"

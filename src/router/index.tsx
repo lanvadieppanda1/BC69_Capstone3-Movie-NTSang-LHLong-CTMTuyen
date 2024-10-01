@@ -10,6 +10,8 @@ import {
   ContacUs,
 } from "../pages";
 import { AuthLayout, MainLayout } from "../components";
+import { AdminLayOut } from "../components/layouts/AdminLayout";
+import { FilmManagement } from "../pages/FilmManagement";
 
 export const routers = () =>
   useRoutes([
@@ -48,6 +50,15 @@ export const routers = () =>
         {
           path: PATH.lienhe,
           element: <ContacUs />,
+        },
+      ],
+    },
+    {
+      element: <AdminLayOut />,
+      children: [
+        {
+          path: PATH.FilmManament,
+          element: <FilmManagement />,
         },
       ],
     },

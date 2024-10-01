@@ -16,3 +16,17 @@ export type RegisterAPIResponse = {
     maNhom: string
     hoTen: string
 }
+
+export interface TicketedAPIResponse {
+    danhSachGhe: DanhSachGheVe[];
+  }
+  export interface DanhSachGheVe {
+    maHeThongRap: string;
+    tenHeThongRap: string;
+    maCumRap: string;
+    tenCumRap: string;
+    maRap: number;
+    tenRap: string;
+    maGhe: number;
+    tenGhe: string;
+  }

@@ -4,13 +4,13 @@ import { Outlet } from "react-router-dom";
 
 export const MainLayout = () => {
   return (
-    <div>
-      <Header />
-      <main className="main-container">
-        <Outlet />
-      </main>
-      <Footer />
-      {/* Footer */}
-    </div>
-  );
+      <div>
+          <Header />
+          <main className="mt-[80px]">
+              <Outlet />
+          </main>
+
+          {/* Footer */}
+      </div>
+  )
 };

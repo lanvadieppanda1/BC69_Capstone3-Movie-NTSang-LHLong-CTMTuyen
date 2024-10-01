@@ -1,9 +1,7 @@
 import { Phim, Banner } from "../@types";
 import { apiInstance } from "../constants";
 
-const api = apiInstance.create({
-  baseURL: "https://movienew.cybersoft.edu.vn/api/QuanLyPhim",
-});
+const api = apiInstance.create({ baseURL: 'https://movienew.cybersoft.edu.vn/api/QuanLyPhim' })
 
 export const quanLyPhimServices = {
   getDanhSachPhim: (query = "") =>
