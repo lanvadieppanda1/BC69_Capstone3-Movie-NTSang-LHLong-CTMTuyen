@@ -1,4 +1,4 @@
-import { localStorageKey } from './localStorageKeys';
+import { localStorageKey } from './localStorageKey';
 import axios, { InternalAxiosRequestConfig } from 'axios'
 
 

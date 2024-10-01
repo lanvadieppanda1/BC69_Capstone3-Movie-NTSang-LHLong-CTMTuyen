@@ -17,7 +17,7 @@ export type RegisterAPIResponse = {
     hoTen: string
 }
 
-export interface TicketedAPIResponese {
+export interface TicketedAPIResponse {
     danhSachGhe: DanhSachGheVe[];
   }
   export interface DanhSachGheVe {
