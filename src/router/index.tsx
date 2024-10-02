@@ -9,8 +9,7 @@ import {
   Category,
   ContacUs,
 } from "../pages";
-import { AuthLayout, MainLayout } from "../components";
-import { AdminLayOut } from "../components/layouts/AdminLayout";
+import { AuthLayout, MainLayout,AdminLayOut } from "../components";
 import { FilmManagement } from "../pages/FilmManagement";
 
 export const routers = () =>

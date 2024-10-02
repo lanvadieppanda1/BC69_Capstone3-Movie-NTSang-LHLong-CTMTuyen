@@ -5,9 +5,9 @@ import { sleep } from '../../utils'
 
 const dangKy = createAsyncThunk(
     'quanLyNguoiDung/dangKy',
-    // payload: Giá trị truyền vào khi action đc dispatch
-    async (payload: RegisterSchemaType, { rejectWithValue }) => {
+    async (payload: RegisterSchemaType, thunkAPI) => {
         try {
+            console.log("thunkAPI: ", thunkAPI);
             console.log('payload: ', payload)
 
             await sleep(2000)
@@ -17,6 +17,7 @@ const dangKy = createAsyncThunk(
 
             return result.data.content
         } catch (err) {
+            const { rejectWithValue } = thunkAPI;
             console.log('err: ', err)
             return rejectWithValue(err)
         }
