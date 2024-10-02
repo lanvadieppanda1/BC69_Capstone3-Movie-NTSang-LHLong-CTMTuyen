@@ -142,7 +142,7 @@ export const MovieManagement = () => {
         <h2 className="text-white uppercase font-500 xl:text-[30px] md:text-[25px] text-[20px] mb-5 md:mb-0">
           Danh sách phim
         </h2>
-        <Button className="py-5 hover:!bg-orange-400 hover:!text-white hover:!border-white" onClick={() => showModal()}>
+        <Button className="py-3 hover:!bg-orange-400 hover:!text-white hover:!border-white" onClick={() => showModal()}>
           Thêm phim mới
         </Button>
       </div>
@@ -175,8 +175,8 @@ export const MovieManagement = () => {
                         className="mb-2 xl:text-[16px] text-[12px]">
                         <td className="py-3 px-2 text-center">{phim.maPhim}</td>
                         <td className="py-3 px-2">{phim.tenPhim}</td>
-                        <td className="py-3 px-2">
-                          <img src={phim.hinhAnh} />
+                        <td className="py-3 px-2 w-32 h-48 overflow-hidden">
+                          <img  className="hinhAnh w-full h-min object-cover" src={phim.hinhAnh} />
                         </td>
                         <td className="py-3 px-2">{`${phim.moTa.slice(
                           0,
