@@ -4,13 +4,13 @@ import { Button, Input } from 'antd'
 import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RegisterSchema, RegisterSchemaType } from '../../schemas'
-import { toast } from 'react-toastify'
+//import { toast } from 'react-toastify'
 
-import { quanLyNguoiDungThunks, useQuanLyNguoiDungSelector } from '../../store/quanLyNguoiDung'
-import { useAppDispatch } from '../../store'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { quanLyNguoiDungServices } from '../../services'
-import { sleep } from '../../utils'
+//import { quanLyNguoiDungThunks, useQuanLyNguoiDungSelector } from '../../store/quanLyNguoiDung'
+//import { useAppDispatch } from '../../store'
+//import { useMutation, useQuery } from '@tanstack/react-query'
+//import { quanLyNguoiDungServices } from '../../services'
+//import { sleep } from '../../utils'
 import { useRegisterMutation } from '../../hooks/api'
 
 // useMutation: sử dụng khi thay đổi database (gọi API xóa, sửa, thêm mới)
@@ -19,8 +19,8 @@ export const RegisterTemplate = () => {
     // const [isLoading, setIsLoading] = useState(false)
 
     const registerMutation = useRegisterMutation()
-    const dispatch = useAppDispatch()
-    const { isLoadingRegister } = useQuanLyNguoiDungSelector()
+    //const dispatch = useAppDispatch()
+    //const { isLoadingRegister } = useQuanLyNguoiDungSelector()
     const {
         handleSubmit,
         control,
@@ -47,9 +47,13 @@ export const RegisterTemplate = () => {
                 <Controller
                     name="hoTen"
                     control={control}
-                    render={({ field }) => <Input status={errors.hoTen && 'error'} {...field} />}
+                    render={({ field }) => (
+                        <Input status={errors.hoTen && 'error'} {...field} />
+                    )}
                 />
-                {errors.hoTen && <p className="text-red-500">{errors.hoTen.message}</p>}
+                {errors.hoTen && (
+                    <p className="text-red-500">{errors.hoTen.message}</p>
+                )}
 
                 <p className="text-white text-16 mb-10">
                     Email <span className="text-red-500">*</span>
@@ -59,7 +63,9 @@ export const RegisterTemplate = () => {
                     control={control}
                     render={({ field }) => <Input {...field} />}
                 />
-                {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+                {errors.email && (
+                    <p className="text-red-500">{errors.email.message}</p>
+                )}
 
                 <p className="text-white text-16 mb-10">
                     Số điện thoại <span className="text-red-500">*</span>
@@ -69,7 +75,9 @@ export const RegisterTemplate = () => {
                     control={control}
                     render={({ field }) => <Input {...field} />}
                 />
-                {errors.soDt && <p className="text-red-500">{errors.soDt.message}</p>}
+                {errors.soDt && (
+                    <p className="text-red-500">{errors.soDt.message}</p>
+                )}
 
                 <p className="text-white text-16 mb-10">
                     Mã nhóm <span className="text-red-500">*</span>
@@ -79,7 +87,9 @@ export const RegisterTemplate = () => {
                     control={control}
                     render={({ field }) => <Input {...field} />}
                 />
-                {errors.maNhom && <p className="text-red-500">{errors.maNhom.message}</p>}
+                {errors.maNhom && (
+                    <p className="text-red-500">{errors.maNhom.message}</p>
+                )}
 
                 <p className="text-white text-16 mb-10">
                     Tài khoản <span className="text-red-500">*</span>
@@ -89,7 +99,9 @@ export const RegisterTemplate = () => {
                     control={control}
                     render={({ field }) => <Input {...field} />}
                 />
-                {errors.taiKhoan && <p className="text-red-500">{errors.taiKhoan.message}</p>}
+                {errors.taiKhoan && (
+                    <p className="text-red-500">{errors.taiKhoan.message}</p>
+                )}
 
                 <p className="text-white text-16 mb-10">
                     Mật khẩu <span className="text-red-500">*</span>
@@ -99,7 +111,9 @@ export const RegisterTemplate = () => {
                     control={control}
                     render={({ field }) => <Input.Password {...field} />}
                 />
-                {errors.matKhau && <p className="text-red-500">{errors.matKhau.message}</p>}
+                {errors.matKhau && (
+                    <p className="text-red-500">{errors.matKhau.message}</p>
+                )}
 
                 <Button
                     loading={registerMutation.isPending}
