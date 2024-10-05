@@ -3,8 +3,6 @@ import { quanLyPhimServices } from "../../services/quanLyPhim";
 import { Button, Card, Skeleton } from "antd";
 import { sleep } from "../../utils";
 import { Phim } from "../../@types";
-import { generatePath, Link, useNavigate } from "react-router-dom";
-import { PATH } from "../../constants";
 
 export const CategoryTemplate = () => {
   // Lấy danh sách phim
@@ -20,17 +18,19 @@ export const CategoryTemplate = () => {
 
     enabled: true,
   });
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const renderPhim = (data: Phim[] = []) => {
     return data.map((phim) => {
       return (
         <div key={phim.maPhim} className="col-3 mb-16 card-film ">
           <Card
-            className="card-img"
+            className="card-img card"
             hoverable
-            style={{ height: 450, width: "100%", textAlign: "left" }}
-            cover={<img alt="example" src={phim.hinhAnh} />}
+            style={{ height: 450, width: "100%" }}
+            cover={
+              <img className="img-phim" alt="example" src={phim.hinhAnh} />
+            }
           >
             <div className="card-data ">
               <Card.Meta
@@ -38,18 +38,7 @@ export const CategoryTemplate = () => {
                 className="card-data"
                 style={{}}
               />
-              <p>{phim?.moTa}</p>
-              <Button
-                className="mt-10 mr-4 bg-red-500 border-0 text-white w-100"
-                onClick={() => {
-                  const path = generatePath(PATH.phimDetail, {
-                    id: phim.maPhim,
-                  });
-                  navigate(path);
-                }}
-              >
-                Đặt vé
-              </Button>
+              {/* <p>{phim?.moTa}</p> */}
             </div>
           </Card>
         </div>
@@ -84,15 +73,6 @@ export const CategoryTemplate = () => {
             Danh Mục Phim{" "}
           </h2>
           <div className="row">{renderPhim(data?.data.content)}</div>
-          <div className="text-center mt-4 mb-5">
-            <Link
-              to="danhmuc"
-              type="text"
-              className="!text-white rounded-md border-2 border-blue-300 ms-2 hover:!bg-blue-300 py-3 px-6"
-            >
-              Xem tất cả
-            </Link>
-          </div>
         </div>
       </div>
     </div>

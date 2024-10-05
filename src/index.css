@@ -166,6 +166,19 @@
   padding: 0;
   margin: 0;
 }
+
+.ant-card-cover .img-phim {
+  object-fit: cover;
+  height: 100%;
+}
+.card .ant-card-cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
 /* Tab  */
 .ant-tabs-tab-btn {
   font-size: 16px;
@@ -181,4 +194,12 @@
   transform: translate(var(--tw-translate-x), var(--tw-translate-y))
     rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
     scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.movie-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }

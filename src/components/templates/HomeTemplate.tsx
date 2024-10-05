@@ -31,18 +31,20 @@ export const HomeTemplate = () => {
       return (
         <div key={phim.maPhim} className="col-3 mb-16 card-film ">
           <Card
-            className="card-img"
+            className="card-img card"
             hoverable
-            style={{ height: 450, width: "100%", textAlign: "left" }}
-            cover={<img alt="example" src={phim.hinhAnh} />}
+            style={{ height: 400, width: "100%", textAlign: "left" }}
+            cover={
+              <img className="img-phim" alt="example" src={phim.hinhAnh} />
+            }
           >
             <div className="card-data ">
               <Card.Meta
                 title={phim.tenPhim}
-                className="card-data"
+                className="card-dat "
                 style={{}}
               />
-              <p>{phim?.moTa}</p>
+              {/* <p>{phim?.moTa}</p> */}
               <Button
                 className="mt-10 mr-4 bg-red-500 border-0 text-white w-100"
                 onClick={() => {

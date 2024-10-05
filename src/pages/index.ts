@@ -5,3 +5,5 @@ export * from "./FilmDetail";
 export * from "./AboutUs";
 export * from "./Category";
 export * from "./ContacUs";
+export * from "./Profile";
+export * from "./Admin";

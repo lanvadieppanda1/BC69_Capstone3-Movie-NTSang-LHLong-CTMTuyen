@@ -5,4 +5,6 @@ export const PATH = {
   aboutUs: "/vechungtoi",
   danhmuc: "/Danhmuc",
   lienhe: "/Lienhe",
+  profile: "profile",
+  admin: "admin",
 };

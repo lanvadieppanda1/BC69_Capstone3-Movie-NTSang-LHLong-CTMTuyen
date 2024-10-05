@@ -8,6 +8,8 @@ import {
   AboutUs,
   Category,
   ContacUs,
+  Profile,
+  Admin,
 } from "../pages";
 import { AuthLayout, MainLayout } from "../components";
 
@@ -48,6 +50,14 @@ export const routers = () =>
         {
           path: PATH.lienhe,
           element: <ContacUs />,
+        },
+        {
+          path: PATH.profile,
+          element: <Profile />,
+        },
+        {
+          path: PATH.admin,
+          element: <Admin />,
         },
       ],
     },

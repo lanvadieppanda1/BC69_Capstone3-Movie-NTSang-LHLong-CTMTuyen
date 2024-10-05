@@ -6,9 +6,16 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { quanLyDatVe } from "../../services";
 import { objectToQueryString } from "../../utils";
-import cn from "classnames";
 import { styled } from "styled-components";
-import { LoaiGhe } from "../../@types";
+import { toast, Bounce } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux"; //
+import "react-toastify/dist/ReactToastify.css";
+import { quanLyDatVeActions } from "../../store/quanLyDatVe";
+import { useQuanLyDatVeSelector } from "../../store/quanLyDatVe/selector";
+import { useQuanLyNguoiDungSelector } from "../../store/quanLyNguoiDung/selector";
+import { GheComponent } from "../ui";
+
 export const FimDetailTemplate = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [maLichChieu, setMaLichChieu] = useState<string | undefined>();
@@ -22,7 +29,11 @@ export const FimDetailTemplate = () => {
   const { data: showtimes } = useGetShowtimesById({ id });
 
   console.log("showtimes: ", showtimes);
-  const { data: danhSachPhongVe } = useQuery({
+  const {
+    data: danhSachPhongVe,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: ["DanhSachPhongVe", maLichChieu],
     queryFn: () =>
       quanLyDatVe.layDanhSachPhongVe(
@@ -32,7 +43,45 @@ export const FimDetailTemplate = () => {
       ),
     enabled: !!maLichChieu,
   });
+
+  let loading = !!danhSachPhongVe;
+
   console.log(danhSachPhongVe);
+
+  const { listSeat } = useQuanLyDatVeSelector();
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const [isComplete, setIsComplete] = useState<boolean>(false);
+  let tong = 0;
+
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const handleBookingComplete = () => {
+    setConfirmLoading(true);
+    setTimeout(() => {
+      setIsComplete(false);
+      setConfirmLoading(false);
+      setTimeout(() => {
+        toast("Đặt vé thành công !", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+        setTimeout(() => {
+          navigate("/");
+        }, 2500);
+        dispatch(quanLyDatVeActions.setClearSeat([]));
+      }, 200);
+    }, 2000);
+  };
 
   return (
     <div className="bg-black  m-auto py-[50px] px-4">
@@ -43,7 +92,7 @@ export const FimDetailTemplate = () => {
               src={data?.hinhAnh}
               alt="..."
               className="w-[860px] h-full object-fill  duration-500 ease-in-out movie-banner "
-              style={{ width: "100vw", height: "500px" }}
+              style={{}}
             />
           </div>
         </div>
@@ -128,55 +177,89 @@ export const FimDetailTemplate = () => {
         />
       </div>
 
-      {/* Modal đặt vé */}
+      {/* modal đặt vé */}
       <Modal
         open={isOpenModal}
-        width={800}
         onCancel={() => {
           setIsOpenModal(false);
           setMaLichChieu(undefined);
         }}
+        onOk={() => {
+          setIsOpenModal(false);
+          setIsComplete(true);
+        }}
+        okText="Đặt vé"
+        cancelText="Huỷ"
+        width={800}
+        loading={!loading}
       >
-        {/* Nội dung Modal, hiện số ghế đặt vé */}
-        Đặt vé
-        <div className="grid grid-cols-12 gap-[10px] mt-20">
-          {danhSachPhongVe?.data.content?.danhSachGhe?.map((ghe) => (
-            <Ghe
-              className={cn({
-                daDat: ghe.daDat,
-                gheThuong: ghe.loaiGhe === LoaiGhe.THUONG,
-                gheVip: ghe.loaiGhe === LoaiGhe.VIP,
-              })}
-            >
-              {ghe.tenGhe}
-            </Ghe>
+        <h2 className="text-center text-[30px] font-semibold">Đặt vé</h2>
+        <div className="grid md:grid-cols-12 grid-cols-6 gap-[10px] mt-4">
+          {danhSachPhongVe?.data.content.danhSachGhe?.map((ghe) => (
+            <GheComponent key={ghe.maGhe} ghe={ghe} />
           ))}
         </div>
+        <ul className="flex mt-12 mb-5 space-x-4 justify-center">
+          <li className="flex items-center">
+            <span className="inline-block me-2 w-9 h-9 rounded-md bg-red-500"></span>
+            Ghế Vip
+          </li>
+          <li className="flex items-center">
+            <span className="inline-block me-2 w-9 h-9 rounded-md bg-slate-700"></span>
+            Ghế Thường
+          </li>
+          <li className="flex items-center">
+            <span className="inline-block me-2 w-9 h-9 rounded-md bg-blue-400"></span>
+            Ghế Đang Chọn
+          </li>
+        </ul>
+      </Modal>
+      <Modal
+        open={isComplete}
+        onCancel={() => {
+          setIsComplete(false);
+        }}
+        onOk={handleBookingComplete}
+        confirmLoading={confirmLoading}
+        okText="Hoàn thành"
+        cancelButtonProps={{ style: { display: "none" } }}
+      >
+        <h2 className="text-center text-[30px] font-semibold mb-9">
+          Thông tin vé đã đặt
+        </h2>
+        <div className="flex mb-5 text-[20px]">
+          <span className="me-2">
+            <strong>Tên phim : </strong>
+          </span>
+          <h3>{data?.tenPhim}</h3>
+        </div>
+        <table className="w-full border-collapse border">
+          <thead>
+            <th className="border">
+              <strong>Tên ghế</strong>
+            </th>
+            <th className="border">
+              <strong>Giá tiền</strong>
+            </th>
+          </thead>
+          <tbody>
+            {listSeat.map((item) => {
+              tong += Number(item["giaVe"]);
+              return (
+                <tr key={item["maGhe"]} className="border">
+                  <td className="border text-center p-2">{item["tenGhe"]}</td>
+                  <td className="border text-center p-2">{item["giaVe"]}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+          <tr>
+            <td className="text-center">
+              <strong>Tổng tiền : {tong}</strong>
+            </td>
+          </tr>
+        </table>
       </Modal>
     </div>
   );
 };
-//Styled-------------------------------------
-const Ghe = styled.div`
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  color: wheat;
-  justify-content: center;
-  border-radius: 6px;
-  background: red;
-  &.gheThuong {
-    background: #116;
-  }
-  &.gheVip {
-    background: red;
-  }
-`;
-
-// map có thể bỏ return bằng cách map((item)=>({}))
-// dùng tab, collapse của ant.design
-// dùng tab, Acod của MUI
-// muốn dùng scss thì phải cài npm i sass
-// hoặc dùng style css
-// cài npm j dayjs để format time
