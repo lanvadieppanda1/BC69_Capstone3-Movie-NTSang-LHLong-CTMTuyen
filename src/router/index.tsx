@@ -8,6 +8,8 @@ import {
   AboutUs,
   Category,
   ContacUs,
+  Profile,
+  Admin,
 } from "../pages";
 import { AuthLayout, MainLayout,AdminLayOut } from "../components";
 import { FilmManagement } from "../pages/FilmManagement";
@@ -49,6 +51,14 @@ export const routers = () =>
         {
           path: PATH.lienhe,
           element: <ContacUs />,
+        },
+        {
+          path: PATH.profile,
+          element: <Profile />,
+        },
+        {
+          path: PATH.admin,
+          element: <Admin />,
         },
       ],
     },
