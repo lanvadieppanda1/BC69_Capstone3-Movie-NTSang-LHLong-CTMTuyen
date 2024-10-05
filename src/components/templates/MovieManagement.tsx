@@ -138,7 +138,7 @@ export const MovieManagement = () => {
 
   return (
     <div className="sm:p-9 p-6 min-h-screen flex flex-col">
-      <div className="flex flex-wrap justify-between md:mb-12 mb-5">
+      <div className="flex flex-wrap justify-between md:mb-5">
         <h2 className="text-white uppercase font-500 xl:text-[30px] md:text-[25px] text-[20px] mb-5 md:mb-0">
           Danh sách phim
         </h2>
