@@ -21,8 +21,36 @@ export const CategoryTemplate = () => {
 
   const navigate = useNavigate();
 
+
   // Hàm render danh sách phim
   const renderPhim = (data: Phim[] = []) => {
+    return data.map((phim) => (
+      <div key={phim.maPhim} className="col-3 mb-16 card-film">
+        <Card
+          className="card-img card"
+          hoverable
+          style={{ height: 450, width: "100%" }}
+          cover={
+            <img className="img-phim" alt={phim.tenPhim} src={phim.hinhAnh} />
+          }
+        >
+          <div className="card-data">
+            <Card.Meta title={phim.tenPhim} />
+            <Button
+              className="mt-10 mr-4 bg-red-500 border-0 text-white w-100"
+              onClick={() => {
+                const path = generatePath(PATH.phimDetail, {
+                  id: phim.maPhim,
+                });
+                navigate(path);
+              }}
+            >
+              Đặt vé
+            </Button>
+          </div>
+        </Card>
+      </div>
+    ));
     return data.map((phim) => (
       <div key={phim.maPhim} className="col-3 mb-16 card-film">
         <Card
@@ -53,9 +81,18 @@ export const CategoryTemplate = () => {
   };
 
   // Hiển thị loading nếu đang fetching
+  // Hiển thị loading nếu đang fetching
   if (isFetching) {
     return (
       <div className="grid grid-cols-4 gap-40 container">
+        {[...Array(12)].map((_, index) => (
+          <div key={index}>
+            <Skeleton.Input active className="!h-[350px] !w-full" />
+            <Skeleton.Input active className="mt-2 !w-full" />
+            <Skeleton.Input active className="mt-2 !w-[80px]" />
+          </div>
+        ))}
+        <p>Loading....</p>
         {[...Array(12)].map((_, index) => (
           <div key={index}>
             <Skeleton.Input active className="!h-[350px] !w-full" />
@@ -68,6 +105,7 @@ export const CategoryTemplate = () => {
     );
   }
 
+  // Kiểm tra và in ra dữ liệu
   // Kiểm tra và in ra dữ liệu
   console.log("data: ", data);
 
