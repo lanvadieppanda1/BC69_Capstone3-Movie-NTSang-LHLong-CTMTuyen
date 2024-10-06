@@ -5,7 +5,7 @@ export const PATH = {
   aboutUs: "/vechungtoi",
   lienhe: "/Lienhe",
   profile: "profile",
-  category: "/danhmuc",
+  danhmuc: "/danhmuc",
   FilmManament: '/admin',
   listUser: "/danhsachnguoidung",
 };

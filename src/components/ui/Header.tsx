@@ -50,7 +50,7 @@ export const Header = () => {
                   to="/"
                   className="block py-2 px-3 text-white hover:text-blue-300 md:p-0 text-center"
                 >
-                  Trang chủ
+                  Homepage
                 </NavLink>
               </li>
               <li>
@@ -59,7 +59,7 @@ export const Header = () => {
                   to="vechungtoi"
                   className="block py-2 px-3 md:p-0 text-white hover:text-blue-300 text-center"
                 >
-                  Về chúng tôi
+                  about us
                 </NavLink>
               </li>
               <li>
@@ -68,7 +68,7 @@ export const Header = () => {
                   to="danhmuc"
                   className="block py-2 px-3 md:p-0 text-white hover:text-blue-300 text-center"
                 >
-                  Danh mục
+                  Category
                 </NavLink>
               </li>
               <li>
@@ -77,14 +77,13 @@ export const Header = () => {
                   to="lienhe"
                   className="block py-2 px-3 md:p-0 text-white hover:text-blue-300 text-center"
                 >
-                  Liên hệ
+                  Contact
                 </NavLink>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Đăng nhập/Đăng ký */}
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           {user ? (
             <div className="flex items-center gap-10">
@@ -98,15 +97,15 @@ export const Header = () => {
                         navigate(PATH.profile);
                       }}
                     >
-                      Thông tin tài khoản
+                      information of account
                     </Button>
                     <Button
                       type="text"
                       onClick={() => {
-                        navigate(PATH.admin);
+                        navigate(PATH.FilmManament);
                       }}
                     >
-                      Đi đến trang admin
+                      Move to adminpage
                     </Button>
 
                     <div>
@@ -118,7 +117,7 @@ export const Header = () => {
                           dispatch(quanLyNguoiDungActions.logOut())
                         }
                       >
-                        Đăng xuất
+                        Logout
                       </Button>
                     </div>
                   </div>
@@ -138,7 +137,7 @@ export const Header = () => {
                 type="primary"
                 onClick={() => navigate(PATH.login)}
               >
-                Đăng Nhập
+                Login
               </Button>
               <Button onClick={() => navigate(PATH.register)}>Đăng Ký</Button>
             </div>

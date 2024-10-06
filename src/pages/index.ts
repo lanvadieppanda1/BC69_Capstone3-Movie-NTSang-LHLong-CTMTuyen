@@ -6,5 +6,5 @@ export * from "./AboutUs";
 export * from "./Category";
 export * from "./ContacUs";
 export * from "./Profile";
-export * from "./Admin";
 export * from "./FilmManagement";
+export * from "./UserManagement";

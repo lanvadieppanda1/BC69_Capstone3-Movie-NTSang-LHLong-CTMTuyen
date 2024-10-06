@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuanLyNguoiDungSelector } from "../../store/quanLyNguoiDung/selector";
 
-export const ListUserTemplate = () => {
+export const ListUserManagement = () => {
   const { user } = useQuanLyNguoiDungSelector();
 
   const navigate = useNavigate();

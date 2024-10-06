@@ -28,7 +28,9 @@ export const SideBar = (props: Props) => {
         )}>
         <NavLink
           to="/"
-          className="flex items-center space-x-3 rtl:space-x-reverse logoSideBar">
+          className={cn("flex items-center space-x-3 rtl:space-x-reverse logoSideBar",
+            { hidden: !activeSidebar }
+          )}>
           <span className=" self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
             <img
               src="https://assets.glxplay.io/web/images/logoglx.svg"

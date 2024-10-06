@@ -9,10 +9,9 @@ import {
   Category,
   ContacUs,
   Profile,
-  Admin,
+  FilmManagement,
 } from "../pages";
 import { AuthLayout, MainLayout,AdminLayOut } from "../components";
-import { FilmManagement } from "../pages/FilmManagement";
 
 export const routers = () =>
   useRoutes([
@@ -57,8 +56,8 @@ export const routers = () =>
           element: <Profile />,
         },
         {
-          path: PATH.admin,
-          element: <Admin />,
+          path: PATH.FilmManament,
+          element: <FilmManagement />,
         },
       ],
     },

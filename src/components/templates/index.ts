@@ -7,4 +7,4 @@ export * from "./AboutUsTemplate";
 export * from "./CategoryTemplate";
 export * from "./ContacUsTemplate";
 export * from "./ProfileTemplate";
-export * from "./AdminTemplate";
+export * from "./MovieManagement";
