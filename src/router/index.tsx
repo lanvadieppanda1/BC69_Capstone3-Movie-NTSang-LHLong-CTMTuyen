@@ -10,8 +10,10 @@ import {
   ContacUs,
   Profile,
   FilmManagement,
+  EditFilm,
 } from "../pages";
 import { AuthLayout, MainLayout,AdminLayOut } from "../components";
+import { EditFilmTemplate } from "../components/templates/EditFilmTemplate";
 
 export const routers = () =>
   useRoutes([
@@ -54,11 +56,7 @@ export const routers = () =>
         {
           path: PATH.profile,
           element: <Profile />,
-        },
-        {
-          path: PATH.FilmManament,
-          element: <FilmManagement />,
-        },
+        }
       ],
     },
     {
@@ -67,6 +65,10 @@ export const routers = () =>
         {
           path: PATH.FilmManament,
           element: <FilmManagement />,
+        },
+        {
+          path: PATH.editFilm,
+          element: <EditFilm />,
         },
       ],
     },

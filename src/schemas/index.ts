@@ -1,3 +1,5 @@
 export * from './RegisterSchema'
 export * from './LoginSchema'
 export * from './FilmManageSchema'
+export * from './EditFilmSchema'
+export * from './NewFilmSchema'

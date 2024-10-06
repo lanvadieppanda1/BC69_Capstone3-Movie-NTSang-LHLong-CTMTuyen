@@ -1,8 +1,9 @@
-import { Button, Input, Modal, Upload, DatePicker, Switch } from 'antd';
+import { Button, Input, Modal, Upload, DatePicker, Switch, UploadFile } from 'antd';
 import { FilmManageSchema, FilmManageSchemaType } from '../../schemas'
 import { useNavigate } from 'react-router-dom';
 import { sleep } from '../../utils';
 import axios from "axios";
+import "../../assets/style.scss";
 import { useQuery } from '@tanstack/react-query';
 import { token } from "../../constants";
 import { quanLyPhimServices } from '../../services';
@@ -48,10 +49,13 @@ export const MovieManagement = () => {
   const lastIndexPost = indexFirstPost + postPerPage;
   const listPost = data?.data.content.slice(indexFirstPost, lastIndexPost);
 
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
-  const [fileList, setFileList] = useState([]);
-
-  const handleOnChangeUpload = ({ fileList: newFileList }) => {
+  const handleOnChangeUpload = ({
+    fileList: newFileList,
+  }: {
+    fileList: UploadFile[];
+  }) => {
     setFileList(newFileList);
   };
 
@@ -74,23 +78,32 @@ export const MovieManagement = () => {
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCA2OSIsIkhldEhhblN0cmluZyI6IjAxLzAyLzIwMjUiLCJIZXRIYW5UaW1lIjoiMTczODM2ODAwMDAwMCIsIm5iZiI6MTcxMDUyMjAwMCwiZXhwIjoxNzM4NTE1NjAwfQ.ap-iPzMpXDeCuXH0aJnbbSuR3vIW4upk1nOK3h9D-5g",
   };
 
-
   const onSubmitHandle: SubmitHandler<FilmManageSchemaType> = async (data) => {
     const formData = new FormData();
     for (const [key, value] of Object.entries(data)) {
-      if( value === undefined ) {
-        formData.append(key, !!value);
+      if (value === undefined) {
+        // formData.append(key, !!value);
+        formData.append(key, "false");
         continue;
       }
-      if( key === 'hinhAnh' ) {
-        const uploadedFiles = value.map((file) => file.originFileObj);
-        formData.append(key, uploadedFiles[0]);
-        continue
-      }
+      if (value) {
+        if (key === "hinhAnh" && Array.isArray(value)) {
+          const uploadedFiles = value.map(
+            (file: { originFileObj: any }) => file.originFileObj
+          );
+          formData.append(key, uploadedFiles[0]);
+          continue;
+        }
 
-      formData.append(key, value)
+        // formData.append(key, value);
+        if (typeof value === "boolean") {
+          formData.append(key, value ? "true" : "false");
+        } else {
+          // Trường hợp khác, giá trị là string hoặc các kiểu hợp lệ khác
+          formData.append(key, value as string);
+        }
+      }
     }
-    
     try {
       const response = await axios.post(
         "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/ThemPhimUploadHinh",
@@ -119,7 +132,8 @@ export const MovieManagement = () => {
     } catch (error) {
       console.log("error: ", error);
     }
-  };fileList
+  };
+
   const [textSearch, setTextSearch] = useState<Phim[] | undefined>([]);
 
   const inputSearchRef = useRef<HTMLInputElement | null>(null);
@@ -166,127 +180,127 @@ export const MovieManagement = () => {
               <th className="py-3 px-2">Hành động</th>
             </tr>
           </thead>
-            <tbody>
-              {textSearch?.length
-                ? textSearch?.map((phim: Phim) => {
-                    return (
-                      <tr
-                        key={phim.maPhim}
-                        className="mb-2 xl:text-[16px] text-[12px]">
-                        <td className="py-3 px-2 text-center">{phim.maPhim}</td>
-                        <td className="py-3 px-2">{phim.tenPhim}</td>
-                        <td className="py-3 px-2 w-32 h-48 overflow-hidden">
-                          <img  className="hinhAnh w-full h-min object-cover" src={phim.hinhAnh} />
-                        </td>
-                        <td className="py-3 px-2">{`${phim.moTa.slice(
-                          0,
-                          200
-                        )}...`}</td>
-                        <td className="py-3 px-2 text-center">
-                          <Button
-                            danger
-                            onClick={async () => {
-                              console.log(phim.maPhim);
-                              try {
-                                await axios.delete(
-                                  "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/XoaPhim?MaPhim=" +
-                                    phim.maPhim,
-                                  {
-                                    headers,
-                                  }
-                                );
-                                setTimeout(() => {
-                                  toast("Xoá phim thành công !", {
-                                    position: "top-right",
-                                    autoClose: 2000,
-                                    hideProgressBar: false,
-                                    closeOnClick: true,
-                                    pauseOnHover: true,
-                                    draggable: true,
-                                    progress: undefined,
-                                    theme: "light",
-                                    transition: Bounce,
-                                  });
-                                }, 200);
-                                refetch();
-                              } catch (error) {
-                                console.log("🚀 ~ onClick={ ~ error:", error);
-                              }
-                            }}>
-                            Delete
-                          </Button>
-                          <Button
-                            type="primary"
-                            className="ms-2"
-                            onClick={() =>
-                              navigate(`/editphim?maPhim=${phim.maPhim}`)
-                            }>
-                            Edit
-                          </Button>
-                        </td>
-                      </tr>
-                    );
-                  })
-                : listPost?.map((phim) => {
-                    return (
-                      <tr
-                        key={phim.maPhim}
-                        className="mb-2 xl:text-[16px] text-[12px]">
-                        <td className="py-3 px-2 text-center">{phim.maPhim}</td>
-                        <td className="py-3 px-2">{phim.tenPhim}</td>
-                        <td className="py-3 px-2">
-                          <img src={phim.hinhAnh} />
-                        </td>
-                        <td className="py-3 px-2">{`${phim.moTa.slice(
-                          0,
-                          200
-                        )}...`}</td>
-                        <td className="py-3 px-2 text-center">
-                          <Button
-                            danger
-                            onClick={async () => {
-                              console.log(phim.maPhim);
-                              try {
-                                await axios.delete(
-                                  "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/XoaPhim?MaPhim=" +
-                                    phim.maPhim,
-                                  {
-                                    headers,
-                                  }
-                                );
-                                setTimeout(() => {
-                                  toast("Xoá phim thành công !", {
-                                    position: "top-right",
-                                    autoClose: 2000,
-                                    hideProgressBar: false,
-                                    closeOnClick: true,
-                                    pauseOnHover: true,
-                                    draggable: true,
-                                    progress: undefined,
-                                    theme: "light",
-                                    transition: Bounce,
-                                  });
-                                }, 200);
-                                refetch();
-                              } catch (error) {
-                                console.log("🚀 ~ onClick={ ~ error:", error);
-                              }
-                            }}>
-                            Delete
-                          </Button>
-                          <Button
-                            type="primary"
-                            className="ms-2"
-                            onClick={() =>
-                              navigate(`/editphim?maPhim=${phim.maPhim}`)
-                            }>
-                            Edit
-                          </Button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-            </tbody>
+          <tbody>
+            {textSearch?.length
+              ? textSearch?.map((phim: Phim) => {
+                  return (
+                    <tr
+                      key={phim.maPhim}
+                      className="mb-2 xl:text-[16px] text-[12px]">
+                      <td className="py-3 px-2 text-center">{phim.maPhim}</td>
+                      <td className="py-3 px-2">{phim.tenPhim}</td>
+                      <td className="py-3 px-2">
+                        <img src={phim.hinhAnh} />
+                      </td>
+                      <td className="py-3 px-2">{`${phim.moTa.slice(
+                        0,
+                        200
+                      )}...`}</td>
+                      <td className="py-3 px-2 text-center">
+                        <Button
+                          danger
+                          onClick={async () => {
+                            console.log(phim.maPhim);
+                            try {
+                              await axios.delete(
+                                "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/XoaPhim?MaPhim=" +
+                                  phim.maPhim,
+                                {
+                                  headers,
+                                }
+                              );
+                              setTimeout(() => {
+                                toast("Xoá phim thành công !", {
+                                  position: "top-right",
+                                  autoClose: 2000,
+                                  hideProgressBar: false,
+                                  closeOnClick: true,
+                                  pauseOnHover: true,
+                                  draggable: true,
+                                  progress: undefined,
+                                  theme: "light",
+                                  transition: Bounce,
+                                });
+                              }, 200);
+                              refetch();
+                            } catch (error) {
+                              console.log("🚀 ~ onClick={ ~ error:", error);
+                            }
+                          }}>
+                          Delete
+                        </Button>
+                        <Button
+                          type="primary"
+                          className="ms-2"
+                          onClick={() =>
+                            navigate(`/editphim?maPhim=${phim.maPhim}`)
+                          }>
+                          Edit
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })
+              : listPost?.map((phim) => {
+                  return (
+                    <tr
+                      key={phim.maPhim}
+                      className="mb-2 xl:text-[16px] text-[12px]">
+                      <td className="py-3 px-2 text-center">{phim.maPhim}</td>
+                      <td className="py-3 px-2">{phim.tenPhim}</td>
+                      <td className="py-3 px-2">
+                        <img src={phim.hinhAnh} />
+                      </td>
+                      <td className="py-3 px-2">{`${phim.moTa.slice(
+                        0,
+                        200
+                      )}...`}</td>
+                      <td className="py-3 px-2 text-center">
+                        <Button
+                          danger
+                          onClick={async () => {
+                            console.log(phim.maPhim);
+                            try {
+                              await axios.delete(
+                                "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/XoaPhim?MaPhim=" +
+                                  phim.maPhim,
+                                {
+                                  headers,
+                                }
+                              );
+                              setTimeout(() => {
+                                toast("Xoá phim thành công !", {
+                                  position: "top-right",
+                                  autoClose: 2000,
+                                  hideProgressBar: false,
+                                  closeOnClick: true,
+                                  pauseOnHover: true,
+                                  draggable: true,
+                                  progress: undefined,
+                                  theme: "light",
+                                  transition: Bounce,
+                                });
+                              }, 200);
+                              refetch();
+                            } catch (error) {
+                              console.log("🚀 ~ onClick={ ~ error:", error);
+                            }
+                          }}>
+                          Delete
+                        </Button>
+                        <Button
+                          type="primary"
+                          className="ms-2"
+                          onClick={() =>
+                            navigate(`/editphim?maPhim=${phim.maPhim}`)
+                          }>
+                          Edit
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
+          </tbody>
         </table>
       </div>
 
@@ -344,7 +358,6 @@ export const MovieManagement = () => {
               <Controller
                 name="hinhAnh"
                 control={control}
-                defaultValue={fileList}
                 render={({ field: { onChange } }) => (
                   <Upload
                     maxCount={1}

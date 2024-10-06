@@ -5,9 +5,12 @@ import {
 } from "../../store/quanLyNguoiDung";
 import { useAppDispatch } from "../../store";
 import { NavLink, useNavigate } from "react-router-dom";
-import { PATH } from "../../constants";
-import { useState } from "react";
+import { MANHOM, PATH } from "../../constants";
+import { ChangeEvent, useRef, useState } from "react";
 import classNames from "classnames";
+import { quanLyPhimServices } from "../../services";
+import { useQuery } from "@tanstack/react-query";
+import { Phim } from "../../@types";
 
 export const Header = () => {
   const dispatch = useAppDispatch();
@@ -16,6 +19,37 @@ export const Header = () => {
 
   const navigate = useNavigate();
   const [isshowMenu, setIsShowMenu] = useState(false);
+
+  const { data } = useQuery({
+    queryKey: ["DanhSachPhim"],
+    queryFn: async () => {
+      return quanLyPhimServices.getDanhSachPhim(MANHOM.manhom);
+    },
+    enabled: true,
+  });
+
+  const [searchResult, setSearchResult] = useState<Phim[] | undefined>([]);
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    if (value.length === 0) {
+      setSearchResult([]);
+      return;
+    }
+    const newData = data?.data.content.filter((item) =>
+      item.tenPhim.toLowerCase().includes(value.toLowerCase())
+    );
+    setSearchResult(newData);
+  };
+
+  const handleResetInput = () => {
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+    setSearchResult([]);
+  };
 
   return (
     <nav className="fixed w-full z-20 top-0 start-0 navbar p-0">
@@ -84,13 +118,13 @@ export const Header = () => {
           </div>
         </div>
 
-        <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <div className="flex space-x-3 rtl:space-x-reverse">
           {user ? (
             <div className="flex items-center gap-10">
-              <p>Hi, {user?.hoTen}</p>
+                <p className="text-white">{user.hoTen}</p>
               <Popover
                 content={
-                  <div className="">
+                  <div className="flex flex-col p-[12px] gap-10">
                     <Button
                       type="text"
                       onClick={() => {

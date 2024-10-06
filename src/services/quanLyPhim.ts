@@ -15,4 +15,10 @@ export const quanLyPhimServices = {
   layDanhSachBanner: () => {
     return api.get<HttpResponse<Banner>>(`/LayDanhSachBanner`);
   },
+  AddFilm: () => {
+    return api.get<HttpResponse<Banner>>(`/ThemPhimUploadHinh`);
+  },
+  EditFilm: () => {
+    return api.get<HttpResponse<Banner>>(`/CapNhatPhimUpload`);
+  },
 };

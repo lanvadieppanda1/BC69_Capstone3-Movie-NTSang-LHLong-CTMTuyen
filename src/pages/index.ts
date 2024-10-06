@@ -8,3 +8,4 @@ export * from "./ContacUs";
 export * from "./Profile";
 export * from "./FilmManagement";
 export * from "./UserManagement";
+export * from "./EditFilm";
