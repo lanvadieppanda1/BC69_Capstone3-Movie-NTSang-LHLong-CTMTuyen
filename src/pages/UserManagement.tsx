@@ -1,4 +1,4 @@
-import { ListUserManagement } from "../components/templates/ListUserManagement"
+import { ListUserManagement } from "../components/templates"
 
 export const UserManagement = () => {
     return <ListUserManagement />

@@ -30,3 +30,13 @@ export interface TicketedAPIResponse {
     maGhe: number;
     tenGhe: string;
   }
+  
+export interface InfoUser {
+  [x: string]: any;
+  taiKhoan: string;
+  hoTen: string;
+  email: string;
+  soDT: string;
+  matKhau: string;
+  maLoaiNguoiDung: string;
+}

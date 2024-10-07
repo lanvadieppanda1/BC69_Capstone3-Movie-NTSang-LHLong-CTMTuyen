@@ -1,6 +1,6 @@
 import { LoginSchemaType, RegisterSchemaType } from '../schemas'
 import { apiInstance } from '../constants'
-import { LoginAPIResponse, RegisterAPIResponse, TicketedAPIResponse } from '../@types'
+import { InfoUser, LoginAPIResponse, RegisterAPIResponse, TicketedAPIResponse } from '../@types'
 
 const api = apiInstance.create({
     baseURL: 'https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung',
@@ -17,4 +17,7 @@ export const quanLyNguoiDungServices = {
       api.post<HttpResponse<TicketedAPIResponse>>(
         `/LayThongTinNguoiDung${query}`
       ),
+        danhSachNguoiDung: (query = "") =>
+        api.get<HttpResponse<InfoUser>>(`/LayDanhSachNguoiDung?${query}`),
+    
 }

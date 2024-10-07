@@ -1,7 +1,11 @@
 import { Button, Input, Modal } from "antd";
-import { useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuanLyNguoiDungSelector } from "../../store/quanLyNguoiDung/selector";
+import { InfoUser } from "../../@types";
+import { quanLyNguoiDungServices } from "../../services";
+import { useQuery } from "@tanstack/react-query";
+import { sleep } from "../../utils";
 
 export const ListUserManagement = () => {
   const { user } = useQuanLyNguoiDungSelector();
@@ -23,22 +27,57 @@ export const ListUserManagement = () => {
     setIsModalOpen(false);
   };
 
+  // lấy danh sách phim
+  const { data } = useQuery({
+    queryKey: ["DanhSachNguoiDung"],
+    queryFn: async () => {
+      await sleep(1000);
+      return quanLyNguoiDungServices.danhSachNguoiDung("MaNhom=GP03");
+    },
+    enabled: true,
+  });
+
+  const [textSearch, setTextSearch] = useState<InfoUser[] | undefined>([]);
+
+  const inputSearchRef = useRef<HTMLInputElement | null>(null);
+
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    if (value.length === 0) {
+      setTextSearch([]);
+      return;
+    }
+    const userSearch = data?.data.content.filter((item: InfoUser) =>
+      item.taiKhoan.toLowerCase().trim().includes(value.toLowerCase().trim())
+    );
+    setTextSearch(userSearch);
+  };
+
+  // paginate
+  const totalPost = data?.data.content.length;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postPerPage] = useState(10);
+  const indexFirstPost = currentPage * postPerPage - postPerPage;
+  const lastIndexPost = indexFirstPost + postPerPage;
+  const listPost = data?.data.content.slice(indexFirstPost, lastIndexPost);
+
   return (
     <div className="sm:p-9 p-6 min-h-screen flex flex-col">
       <div className="flex flex-wrap justify-between md:mb-12 mb-5">
         <h2 className="text-white uppercase font-500 xl:text-[30px] md:text-[25px] text-[20px] mb-5 md:mb-0">
           Danh sách người dùng
         </h2>
-        <Button
-          className="py-5 hover:!bg-orange-400 hover:!text-white hover:!border-white"
-          onClick={() => showModal()}>
-          Thêm người dùng mới
+        <Button className="py-3 hover:!bg-orange-400 hover:!text-white hover:!border-white" onClick={() => showModal()}>
+          Thêm phim mới
         </Button>
       </div>
       <div className="mb-6">
-        <Input.Search
-          placeholder="Tìm người dùng..."
-          className="w-full adminInputSearch"
+      <input
+          ref={inputSearchRef}
+          type="search"
+          placeholder="Tìm kiếm người dùng..."
+          className="w-full adminInputSearch p-2"
+          onChange={(e) => handleSearch(e)}
         />
       </div>
       <table className="w-full text-white">

@@ -9,3 +9,4 @@ export * from "./ContacUsTemplate";
 export * from "./ProfileTemplate";
 export * from "./MovieManagement";
 export * from "./EditFilmTemplate";
+export * from "./ListUserManagement";

@@ -11,6 +11,7 @@ import {
   Profile,
   FilmManagement,
   EditFilm,
+  UserManagement,
 } from "../pages";
 import { AuthLayout, MainLayout,AdminLayOut } from "../components";
 import { EditFilmTemplate } from "../components/templates/EditFilmTemplate";
@@ -69,6 +70,10 @@ export const routers = () =>
         {
           path: PATH.editFilm,
           element: <EditFilm />,
+        },
+        {
+          path: PATH.listUser,
+          element: <UserManagement />,
         },
       ],
     },

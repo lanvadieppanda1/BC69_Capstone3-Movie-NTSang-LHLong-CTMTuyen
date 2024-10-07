@@ -129,7 +129,6 @@ export const FimDetailTemplate = () => {
         </div>
       </div>
 
-      {/* tab  */}
       <div className="text-white h-full  container mb-8">
         <Tabs
           items={showtimes?.heThongRapChieu.map((item) => ({
